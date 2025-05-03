@@ -24,7 +24,7 @@ const Profile = () => {
           <div className='flex items-center gap-4'>
             <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20">
               <Avatar className="w-full h-full">
-                <AvatarImage src={user?.profile?.avatar || 'default-avatar.png'} alt="profile" />
+                <AvatarImage src={user?.profile?.profilePhoto || 'default-avatar.png'} alt="profile" />
               </Avatar>
             </div>
             <div>
