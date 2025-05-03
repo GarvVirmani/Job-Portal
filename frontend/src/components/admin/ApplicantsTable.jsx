@@ -1,87 +1,47 @@
-import React from 'react'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { MoreHorizontal } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import { toast } from 'sonner';
-import { APPLICATION_API_END_POINT } from '@/utils/constant';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import Navbar from '../shared/Navbar'
+import { Input } from '../ui/input'
+import { Button } from '../ui/button'
+import CompaniesTable from './CompaniesTable'
+import { useNavigate } from 'react-router-dom'
+import useGetAllCompanies from '@/hooks/useGetAllCompanies'
+import { useDispatch } from 'react-redux'
+import { setSearchCompanyByText } from '@/redux/companySlice'
 
-const shortlistingStatus = ["Accepted", "Rejected"];
+const Companies = () => {
+  useGetAllCompanies()
+  const [input, setInput] = useState('')
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-const ApplicantsTable = () => {
-    const { applicants } = useSelector(store => store.application);
+  useEffect(() => {
+    dispatch(setSearchCompanyByText(input))
+  }, [input])
 
-    const statusHandler = async (status, id) => {
-        console.log('called');
-        try {
-            axios.defaults.withCredentials = true;
-            const res = await axios.post(`${APPLICATION_API_END_POINT}/status/${id}/update`, { status });
-            console.log(res);
-            if (res.data.success) {
-                toast.success(res.data.message);
-            }
-        } catch (error) {
-            toast.error(error.response.data.message);
-        }
-    }
-
-    return (
-        <div>
-            <Table>
-                <TableCaption>A list of your recent applied user</TableCaption>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>FullName</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Contact</TableHead>
-                        <TableHead>Resume</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead className="text-right">Action</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {
-                        applicants && applicants?.applications?.map((item) => (
-                            <tr key={item._id}>
-                                <TableCell>{item?.applicant?.fullname}</TableCell>
-                                <TableCell>{item?.applicant?.email}</TableCell>
-                                <TableCell>{item?.applicant?.phoneNumber}</TableCell>
-                                <TableCell >
-                                    {
-                                        item.applicant?.profile?.resume ? <a className="text-blue-600 cursor-pointer" href={item?.applicant?.profile?.resume} target="_blank" rel="noopener noreferrer">{item?.applicant?.profile?.resumeOriginalName}</a> : <span>NA</span>
-                                    }
-                                </TableCell>
-                                <TableCell>{item?.applicant.createdAt.split("T")[0]}</TableCell>
-                                <TableCell className="float-right cursor-pointer">
-                                    <Popover>
-                                        <PopoverTrigger>
-                                            <MoreHorizontal />
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-32">
-                                            {
-                                                shortlistingStatus.map((status, index) => {
-                                                    return (
-                                                        <div onClick={() => statusHandler(status, item?._id)} key={index} className='flex w-fit items-center my-2 cursor-pointer'>
-                                                            <span>{status}</span>
-                                                        </div>
-                                                    )
-                                                })
-                                            }
-                                        </PopoverContent>
-                                    </Popover>
-
-                                </TableCell>
-
-                            </tr>
-                        ))
-                    }
-
-                </TableBody>
-
-            </Table>
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      <div className="max-w-6xl mx-auto px-4 py-10">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+          <Input
+            className="w-full md:w-1/3 bg-white shadow-sm focus:ring-2 focus:ring-rose-500"
+            placeholder="Filter by company name..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <Button
+            onClick={() => navigate('/admin/companies/create')}
+            className="bg-rose-600 hover:bg-rose-700 transition"
+          >
+            New Company
+          </Button>
         </div>
-    )
+        <div className="bg-white rounded-xl shadow-md p-4">
+          <CompaniesTable />
+        </div>
+      </div>
+    </div>
+  )
 }
 
-export default ApplicantsTable
+export default Companies
