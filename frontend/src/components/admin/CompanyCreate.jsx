@@ -53,7 +53,7 @@ const CompanyCreate = () => {
           <Input
             id="companyName"
             type="text"
-            placeholder="JobHunt, Microsoft, etc."
+            placeholder="JobPortal, Microsoft, etc."
             className="mt-2"
             value={companyName}
             onChange={e => setCompanyName(e.target.value)}

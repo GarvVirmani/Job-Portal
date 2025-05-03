@@ -26,7 +26,6 @@ const Companies = () => {
           <Input
             className="w-full md:w-1/3 bg-white shadow-sm focus:ring-2 focus:ring-rose-500"
             placeholder="Filter by company name..."
-            value={input}
             onChange={(e) => setInput(e.target.value)}
           />
           <Button

@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 const corsOptions = {
-    origin:'https://job-portal-jvnw.onrender.com',
+    origin:'http://localhost:8000',
     credentials:true
 }
 
