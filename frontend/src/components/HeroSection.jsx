@@ -30,12 +30,11 @@ const HeroSection = () => {
           Explore a wide range of job openings and find the perfect match for your skills and aspirations.
         </p>
         <div className='flex w-full md:w-3/4 shadow-md border border-zinc-200 rounded-full items-center gap-3 mx-auto bg-white'>
-          <input
-            type='text'
-            placeholder='Search by job title, keywords, or company'
-            onChange={(e) => setQuery(e.target.value)}
-            className='outline-none border-none w-full px-4 py-3 rounded-full text-zinc-700'
-          />
+        <input
+          type="text"
+          placeholder="Search by job title, keywords, or company"
+          onChange={(e) => setQuery(e.target.value)}
+          className="outline-none border-none w-full px-2 sm:px-4 py-3 rounded-full text-zinc-700"/>
           <Button onClick={searchJobHandler} className='rounded-r-full bg-orange-600 hover:bg-orange-700 text-white'>
             <Search className='h-5 w-5' />
           </Button>
