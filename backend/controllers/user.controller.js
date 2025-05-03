@@ -15,9 +15,10 @@ export const register = async (req, res) => {
             });
         };
         const file = req.file;
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-
+        if(file){
+            const fileUri = getDataUri(file);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        }
         const user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({
@@ -34,7 +35,7 @@ export const register = async (req, res) => {
             password: hashedPassword,
             role,
             profile:{
-                profilePhoto:cloudResponse.secure_url,
+                profilePhoto:file?cloudResponse.secure_url:"https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg",
             }
         });
 
@@ -117,9 +118,10 @@ export const updateProfile = async (req, res) => {
         
         const file = req.file;
         // cloudinary ayega idhar
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-
+        if(file){
+            const fileUri = getDataUri(file);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        }
 
 
         let skillsArray;
@@ -142,8 +144,7 @@ export const updateProfile = async (req, res) => {
         if(bio) user.profile.bio = bio
         if(skills) user.profile.skills = skillsArray
       
-        // resume comes later here...
-        if(cloudResponse){
+        if(file){
             user.profile.resume = cloudResponse.secure_url // save the cloudinary url
             user.profile.resumeOriginalName = file.originalname // Save the original file name
         }
