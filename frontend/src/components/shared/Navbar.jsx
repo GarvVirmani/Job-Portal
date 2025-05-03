@@ -69,7 +69,7 @@ const Navbar = () => {
               <PopoverTrigger asChild>
                 <Avatar className="cursor-pointer">
                   <AvatarImage
-                    src={user?.profile?.image || "https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg"}
+                    src={user?.profile?.profilePhoto || "https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg"}
                     alt={user?.fullname || '@user'}
                   />
                 </Avatar>
@@ -79,7 +79,7 @@ const Navbar = () => {
                   <div className='flex gap-2 space-y-2 p-2'>
                     <Avatar className="cursor-pointer">
                       <AvatarImage
-                        src={user?.profile?.image || "https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg"}
+                        src={user?.profile?.profilePhoto || "https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg"}
                         alt={user?.fullname || '@user'}
                       />
                     </Avatar>
